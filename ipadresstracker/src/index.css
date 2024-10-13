@@ -1,6 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
-
-:root{
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* :root{
   --Very-Dark-Gray: hsl(0, 0%, 17%);
   --Dark-Gray: hsl(0, 0%, 59%);
   --font-size: 18px;
@@ -11,4 +13,4 @@ body{
   color: white;
   font-family: 'Rubik', sans-serif;
   font-size: var(--font-size);
-}
+} */
