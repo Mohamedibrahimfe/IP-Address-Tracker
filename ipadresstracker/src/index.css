@@ -6,7 +6,16 @@
 body {
   font-family: 'Rubik', sans-serif;
 }
-#map {
-  height: 100vh;
-  width: 100vw;
+.search-bar-container{
+  background-image: url(../public/images/pattern-bg-desktop.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+@media screen and (max-width:468px) {
+  .stats{
+    left: 0;
+    right: 0;
+    margin: auto;
+  }
 }
