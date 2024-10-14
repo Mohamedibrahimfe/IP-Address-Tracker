@@ -1,37 +1,62 @@
 import "./App.css";
 import { useEffect, useState } from "react";
-import { MapContainer, TileLayer, useMap, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
+
+import Map from "./components/Map";
 function App() {
-  // const [ip, setIP] = useState("");
-  // const [location, setLocation] = useState({
-  //   lat: 0,
-  //   lng: 0,
-  // });
-  // const getData = async () => {
-  //   const res = await fetch("https://api.ipify.org/?format=json");
-  //   const data = await res.json();
-  //   setIP(data.ip);
-  //   // console.log(data.ip);
-  // };
-  // useEffect(() => {
-  //   getData();
-  // }, []);
-  // const getPosition = async () => {
-  //   const result = await fetch(
-  //     `https://geo.ipify.org/api/v2/country,city?apiKey=at_rZQn2szygvdbjegfpNCpbFQth5LwO&ipAddress=${ip}`
-  //   );
-  //   const data = await result.json();
-  //   const result2 = data.location;
-  //   setLocation(result2);
-  //   console.log(result2);
-  // };
-  // useEffect(() => {
-  //   getPosition();
-  // }, []);
-  const position = [51.505, -0.09];
+  const [input, setInput] = useState("");
+  const [ip, setIP] = useState("");
+  const [location, setLocation] = useState({
+    latitude: 0,
+    longitude: 0,
+  });
+  const [info, setInfo] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const getData = async () => {
+    try {
+      const res = await fetch("https://api.ipify.org/?format=json");
+      const data = await res.json();
+      setIP(data.ip);
+      throw new Error("error");
+    } catch (error) {
+      setError(error.message);
+    }
+    setLoading(false);
+    // getting the ip address of the user
+  };
+  useEffect(() => {
+    getData();
+  }, [setInput]);
+  const getPosition = async () => {
+    try {
+      const result = await fetch(`https://ipapi.co/${ip}/json/`);
+      const data = await result.json();
+      setInfo(data);
+      // console.log(data);
+      setLocation({
+        latitude: data.latitude,
+        longitude: data.longitude,
+      });
+      throw new Error("error");
+    } catch (error) {
+      setError(error.message);
+    }
+    setLoading(false);
+    // getting the location of the user using the ip address
+  };
+  useEffect(() => {
+    getPosition();
+  }, []);
+
+  const handleClick = () => {
+    setIP(input);
+    getPosition();
+    setError("");
+    setInput("");
+  };
   return (
-    <div className="container-main relative h-screen max-h-screen overflow-hidden ">
+    <div className="container-main absolute top-0 left-0 right-0 h-screen max-h-screen  ">
       <div className="absolute left-0 right-0  mt-5   flex  justify-center ">
         <h1 className="text-gray-100 font-bold mt-5 text-4xl ">
           IP Address Tracker
@@ -42,8 +67,10 @@ function App() {
           type="search"
           className="rounded-s-xl text-xl p-2 h-14 w-1/4"
           placeholder="Search for any IP address or domain"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
         />
-        <button>
+        <button onClick={handleClick}>
           <svg
             viewBox="0 0 24 24"
             fill="none"
@@ -76,37 +103,32 @@ function App() {
         alt=""
       />
 
-      <div className="absolute bg-white text-gray-500 w-1/3 flex gap-10 p-5 rounded-xl left-0 right-0 mx-auto -mt-16 z-50">
-        <div className=" w-1/3 border-r-2 border-gray-400/50 ">
-          <h2 className="font-bold">IP Address</h2>
-          <p>38.0.101.76</p>
+      <div className="absolute  bg-white text-gray-500 w-1/2 h-32 flex gap-4 justify-around p-4 rounded-xl left-0 right-0 mx-auto -mt-16 z-40  shadow-sm ">
+        <div className="  border-r-2 border-gray-400/50 ">
+          <h2 className="font-bold ">IP Address</h2>
+          <p className=" text-gray-900 mt-4 mr-4 text-xl">{ip}</p>
         </div>
-        <div className=" w-1/3 border-r-2 border-gray-400/50 ">
-          <h2 className="font-bold">Location</h2>
-          <p>Brooklyn, New York</p>
+        <div className="  border-r-2 border-gray-400/50 ">
+          <h2 className="font-bold ">Location</h2>
+          <p className=" text-gray-900 mt-4 mr-4 text-xl">
+            {info.country}, {info.city}
+          </p>
         </div>
-        <div className=" w-1/3 border-r-2 border-gray-400/50 ">
-          <h2 className="font-bold">Timezone</h2>
-          <p>UTC -8:00</p>
+        <div className="  border-r-2 border-gray-400/50 ">
+          <h2 className="font-bold ">Timezone</h2>
+          <p className=" text-gray-900 mt-4 mr-4 text-xl">
+            UTC {info.timezone}
+          </p>
         </div>
         <div>
-          <h2 className="font-bold">ISP</h2>
-          <p>SpaceX Starlink</p>
+          <h2 className="font-bold mr-4">ISP</h2>
+          <p className=" text-gray-900 mt-4 mr-4 text-xl">{info.org}</p>
         </div>
       </div>
-
-      <div className=" w-full h-4/6 absolute z-10 ">
-        <MapContainer center={position} zoom={13} scrollWheelZoom={false}>
-          <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          />
-          <Marker position={position}>
-            <Popup>
-              A pretty CSS3 popup. <br /> Easily customizable.
-            </Popup>
-          </Marker>
-        </MapContainer>
+      <div className="h-96 absolute z-10 left-0 right-0  ">
+        {loading ? <p className="">Loading...</p> : null}
+        {error ? <p className="text-red-500 ">{error}</p> : null}
+        <Map center={location} />
       </div>
     </div>
   );
