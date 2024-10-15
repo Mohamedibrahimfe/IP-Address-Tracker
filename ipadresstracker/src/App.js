@@ -47,6 +47,7 @@ function App() {
   useEffect(() => {
     getData();
     getPosition(ip);
+    // eslint-disable-next-line
   }, []);
 
   const updateMapOnClick = async (ip) => {
@@ -82,7 +83,7 @@ function App() {
         <div className=" md:w-2/5 w-4/5 sm:w-4/6  lg:w-1/3 items-center flex justify-center h-18 mt-0 mb-0 ">
           <input
             type="search"
-            className="md:w-3/4 w-3/4 lg:w-4/5 bg-white md:h-14 rounded-l-lg p-2 text-white focus:outline-none"
+            className="md:w-3/4 w-3/4 lg:w-4/5 bg-white md:h-14 rounded-l-lg p-2 text-black focus:outline-none"
             placeholder="Search for any IP address or domain"
             value={input}
             onChange={(e) => setInput(e.target.value)}
@@ -115,7 +116,7 @@ function App() {
         </div>
       </div>
 
-      <div className="w-4/5 stats  lg:-mt-6 lg:left-32 rounded-lg  absolute  top-56  -md:ml-4  md:top-40 left-14  sm:left-0 bg-white z-50 flex flex-col sm:flex-row container gap-4 md:gap-10 p-4 md:p-8 xl:top-56 ">
+      <div className="stats">
         <div className="md:border-r-2 w-full border-slate-300 flex flex-col gap-4 items-center ">
           <p className="text-sm text-slate-400 font-semibold ">IP Address</p>
           <p className="md:text-2xl text-black font-bold">
@@ -131,7 +132,7 @@ function App() {
         <div className="md:border-r-2 w-full border-slate-300 flex flex-col gap-4 items-center ">
           <p className="text-sm text-slate-400 font-semibold ">Timezone</p>
           <p className="md:text-2xl text-black font-bold">
-            UTC {loading ? "Loading..." : info.timezone}
+            {loading ? "Loading..." : info.timezone}
           </p>
         </div>
         <div className="w-full flex flex-col gap-2 items-center ">
