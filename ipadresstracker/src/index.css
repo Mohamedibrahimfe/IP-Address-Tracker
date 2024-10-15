@@ -17,15 +17,6 @@ body {
     top: 200px!important;
   }
 }
-@media screen and (max-width:375px) {
-  .stats{
-    left: 0;
-    right: 0;
-    margin: auto;
-    top: 220px!important;
-  }
-}
-
 @media (min-width:376px) and (max-width:769px) {
   input{
     width: 100%!important;
@@ -35,7 +26,7 @@ body {
     top: 260px!important;
   }
 }
-@media screen and (max-width:640px) {
+@media (max-width:640px) {
   input{
     width: 70%!important;
   }
@@ -43,6 +34,29 @@ body {
     height: 56px!important;
   }
 }
+
+@media (max-width:375px) {
+  .stats{
+    left: 0;
+    right: 0;
+    margin: auto;
+    top: 220px!important;
+  }
+  .stats div{
+    gap: 5px!important;
+  }
+  .stats p{
+    padding: 0px!important;
+  }
+  button svg{
+    height: 44px!important;
+  }
+  footer{
+    margin: auto;
+    max-width: 80%;
+  }
+}
+
 .stats{
   position: absolute;
   display: flex;
