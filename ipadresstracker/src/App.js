@@ -152,6 +152,27 @@ function App() {
           <Map center={location} error={error} />
         )}
       </div>
+      <footer className="fixed bottom-0 left-0 right-0 flex justify-center items-center   ">
+        <p className="text-sm text-slate-900 font-semibold ">
+          Challenge by{"  "}
+          <a
+            href="https://www.frontendmentor.io/home"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Frontend Mentor
+          </a>
+          . Coded by{" "}
+          <a
+            href="https://mohamed-ibrahim-omega-two-17.vercel.app/?vercelToolbarCode=Og8dV9uX89tzEkq"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Muhammad Ibrahim
+          </a>
+          .
+        </p>
+      </footer>
     </div>
   );
 }
